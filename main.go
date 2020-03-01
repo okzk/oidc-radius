@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"github.com/okzk/go-ciba"
 	"layeh.com/radius"
 	"layeh.com/radius/rfc2865"
@@ -35,7 +34,7 @@ func main() {
 		}
 
 		code := radius.CodeAccessReject
-		token, err := client.Authenticate(context.Background(), ciba.LoginHint(username), ciba.UserCode(password))
+		token, err := client.Authenticate(r.Context(), ciba.LoginHint(username), ciba.UserCode(password))
 		if err == nil && token.Claims()["sub"] == username {
 			code = radius.CodeAccessAccept
 		}
