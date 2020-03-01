@@ -1,0 +1,6 @@
+github.com/dgrijalva/jwt-go v3.2.0+incompatible h1:7qlOGliEKZXTDg6OTjfoBKDXWrumCAMpl/TFQ4/5kLM=
+github.com/dgrijalva/jwt-go v3.2.0+incompatible/go.mod h1:E3ru+11k8xSBh+hMPgOLZmtrrCbhqsmaPHjLKYnJCaQ=
+github.com/okzk/go-ciba v0.0.0-20191203073517-798bc5672f4f h1:f17XRufzrJrh3lRE3yOY7+J4je3xa7LIdzBvLfMSECY=
+github.com/okzk/go-ciba v0.0.0-20191203073517-798bc5672f4f/go.mod h1:6nx06m9He/fU+fL/0aRGt9VGIyfelW0qVRjYAynsdCg=
+layeh.com/radius v0.0.0-20190322222518-890bc1058917 h1:BDXFaFzUt5EIqe/4wrTc4AcYZWP6iC6Ult+jQWLh5eU=
+layeh.com/radius v0.0.0-20190322222518-890bc1058917/go.mod h1:fywZKyu//X7iRzaxLgPWsvc0L26IUpVvE/aeIL2JtIQ=
