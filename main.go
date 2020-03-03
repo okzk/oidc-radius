@@ -43,7 +43,7 @@ func main() {
 
 	server := radius.PacketServer{
 		Handler:      radius.HandlerFunc(handler),
-		SecretSource: radius.StaticSecretSource([]byte(`secret`)),
+		SecretSource: radius.StaticSecretSource([]byte(os.Getenv("RADIUS_SECRET"))),
 	}
 
 	if err := server.ListenAndServe(); err != nil {

@@ -8,7 +8,8 @@ FROM alpine
 RUN apk add --no-cache ca-certificates
 COPY --from=build-env-golang /go/bin/oidc-radius /usr/local/bin/
 
-ENV CIBA_ISSUER= \
+ENV RADIUS_SECRET= \
+  CIBA_ISSUER= \
   CIBA_AUTHN_ENDBPOINT= \
   CIBA_TOKEN_ENDBPOINT= \
   CIBA_SCOPE=openid \
