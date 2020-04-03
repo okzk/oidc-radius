@@ -4,6 +4,7 @@ import (
 	"github.com/okzk/go-ciba"
 	"layeh.com/radius"
 	"layeh.com/radius/rfc2865"
+	"log"
 	"os"
 	"strings"
 )
@@ -19,7 +20,10 @@ func main() {
 	)
 	sep := os.Getenv("USERNAME_SEPARATOR")
 
-	handler := func(w radius.ResponseWriter, r *radius.Request) {
+	accessRequestHandler := func(w radius.ResponseWriter, r *radius.Request) {
+		if r.Code != radius.CodeAccessRequest {
+			return
+		}
 		username := rfc2865.UserName_GetString(r.Packet)
 		password := ""
 		if sep != "" {
@@ -32,20 +36,48 @@ func main() {
 		if password == "" {
 			password = rfc2865.UserPassword_GetString(r.Packet)
 		}
-
-		code := radius.CodeAccessReject
-		token, err := client.Authenticate(r.Context(), ciba.LoginHint(username), ciba.UserCode(password))
-		if err == nil && token.Claims()["sub"] == username {
-			code = radius.CodeAccessAccept
+		if username == "" || password == "" {
+			w.Write(r.Response(radius.CodeAccessReject))
+			return
 		}
-		w.Write(r.Response(code))
+
+		token, err := client.Authenticate(r.Context(), ciba.LoginHint(username), ciba.UserCode(password))
+		if err != nil {
+			log.Printf("[INFO] authn failed. user: %s, error: %v", username, err)
+			w.Write(r.Response(radius.CodeAccessReject))
+		} else if token.Claims()["sub"] != username {
+			log.Printf("[INFO] authn failed. user: %s, returned_sub: %s", username, token.Claims()["sub"])
+			w.Write(r.Response(radius.CodeAccessReject))
+		} else {
+			log.Printf("[INFO] authn success. user: %s", username)
+			w.Write(r.Response(radius.CodeAccessAccept))
+		}
 	}
+
+	accountingRequestHandler := func(w radius.ResponseWriter, r *radius.Request) {
+		if r.Code != radius.CodeAccountingRequest {
+			return
+		}
+		w.Write(r.Response(radius.CodeAccountingResponse))
+	}
+
+	secret := []byte(os.Getenv("RADIUS_SECRET"))
+
+	go func() {
+		server := radius.PacketServer{
+			Addr:         ":1813",
+			Handler:      radius.HandlerFunc(accountingRequestHandler),
+			SecretSource: radius.StaticSecretSource(secret),
+		}
+		if err := server.ListenAndServe(); err != nil {
+			panic(err)
+		}
+	}()
 
 	server := radius.PacketServer{
-		Handler:      radius.HandlerFunc(handler),
-		SecretSource: radius.StaticSecretSource([]byte(os.Getenv("RADIUS_SECRET"))),
+		Handler:      radius.HandlerFunc(accessRequestHandler),
+		SecretSource: radius.StaticSecretSource(secret),
 	}
-
 	if err := server.ListenAndServe(); err != nil {
 		panic(err)
 	}

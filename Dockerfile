@@ -17,6 +17,6 @@ ENV RADIUS_SECRET= \
   CIBA_CLIENT_SECRET= \
   USERNAME_SEPARATOR=
 
-EXPOSE 1812/udp
+EXPOSE 1812/udp 1813/udp
 
 CMD ["/usr/local/bin/oidc-radius"]
