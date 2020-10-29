@@ -21,8 +21,8 @@ func firstOf(args ...string) string {
 func main() {
 	client := ciba.NewClient(
 		os.Getenv("CIBA_ISSUER"),
-		firstOf(os.Getenv("CIBA_AUTHN_ENDPOINT"), os.Getenv("CIBA_AUTHN_ENDBPOINT")), // deprecated env name with typo
-		firstOf(os.Getenv("CIBA_TOKEN_ENDPOINT"), os.Getenv("CIBA_TOKEN_ENDBPOINT")), // deprecated env name with typo
+		firstOf(os.Getenv("CIBA_AUTHZ_ENDPOINT"), os.Getenv("CIBA_AUTHN_ENDPOINT"), os.Getenv("CIBA_AUTHN_ENDBPOINT")), // deprecated env name with typo
+		firstOf(os.Getenv("CIBA_TOKEN_ENDPOINT"), os.Getenv("CIBA_TOKEN_ENDBPOINT")),                                   // deprecated env name with typo
 		os.Getenv("CIBA_SCOPE"),
 		os.Getenv("CIBA_CLIENT_ID"),
 		os.Getenv("CIBA_CLIENT_SECRET"),

@@ -10,7 +10,7 @@ COPY --from=build-env-golang /go/bin/oidc-radius /usr/local/bin/
 
 ENV RADIUS_SECRET= \
   CIBA_ISSUER= \
-  CIBA_AUTHN_ENDPOINT= \
+  CIBA_AUTHZ_ENDPOINT= \
   CIBA_TOKEN_ENDPOINT= \
   CIBA_SCOPE=openid \
   CIBA_CLIENT_ID= \
