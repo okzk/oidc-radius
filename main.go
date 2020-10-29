@@ -9,11 +9,20 @@ import (
 	"strings"
 )
 
+func firstOf(args ...string) string {
+	for _, s := range args {
+		if s != "" {
+			return s
+		}
+	}
+	return ""
+}
+
 func main() {
 	client := ciba.NewClient(
 		os.Getenv("CIBA_ISSUER"),
-		os.Getenv("CIBA_AUTHN_ENDBPOINT"),
-		os.Getenv("CIBA_TOKEN_ENDBPOINT"),
+		firstOf(os.Getenv("CIBA_AUTHN_ENDPOINT"), os.Getenv("CIBA_AUTHN_ENDBPOINT")), // deprecated env name with typo
+		firstOf(os.Getenv("CIBA_TOKEN_ENDPOINT"), os.Getenv("CIBA_TOKEN_ENDBPOINT")), // deprecated env name with typo
 		os.Getenv("CIBA_SCOPE"),
 		os.Getenv("CIBA_CLIENT_ID"),
 		os.Getenv("CIBA_CLIENT_SECRET"),
