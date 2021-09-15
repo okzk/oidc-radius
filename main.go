@@ -19,6 +19,7 @@ func main() {
 		os.Getenv("CIBA_CLIENT_SECRET"),
 	)
 	sep := os.Getenv("USERNAME_SEPARATOR")
+	acceptCaseInsensitiveUsername := os.Getenv("ACCEPT_CASE_INSENSITIVE_USERNAME") == "1"
 
 	accessRequestHandler := func(w radius.ResponseWriter, r *radius.Request) {
 		if r.Code != radius.CodeAccessRequest {
@@ -45,13 +46,27 @@ func main() {
 		if err != nil {
 			log.Printf("[INFO] authn failed. user: %s, error: %v", username, err)
 			w.Write(r.Response(radius.CodeAccessReject))
-		} else if token.Claims()["sub"] != username {
-			log.Printf("[INFO] authn failed. user: %s, returned_sub: %s", username, token.Claims()["sub"])
-			w.Write(r.Response(radius.CodeAccessReject))
-		} else {
-			log.Printf("[INFO] authn success. user: %s", username)
-			w.Write(r.Response(radius.CodeAccessAccept))
+			return
 		}
+
+		sub, ok := token.Claims()["sub"].(string)
+		if !ok {
+			log.Printf("[INFO] authn failed. user: %s, error: missing_sub", username)
+			w.Write(r.Response(radius.CodeAccessReject))
+			return
+		}
+		if acceptCaseInsensitiveUsername && !strings.EqualFold(sub, username) {
+			log.Printf("[INFO] authn failed. user: %s, returned_sub: %s", username, sub)
+			w.Write(r.Response(radius.CodeAccessReject))
+			return
+		}
+		if !acceptCaseInsensitiveUsername && sub != username {
+			log.Printf("[INFO] authn failed. user: %s, returned_sub: %s", username, sub)
+			w.Write(r.Response(radius.CodeAccessReject))
+			return
+		}
+		log.Printf("[INFO] authn success. user: %s", username)
+		w.Write(r.Response(radius.CodeAccessAccept))
 	}
 
 	accountingRequestHandler := func(w radius.ResponseWriter, r *radius.Request) {
