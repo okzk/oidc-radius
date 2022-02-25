@@ -10,8 +10,8 @@ This server uses POLL mode in CIBA flow.
 docker run -d -p 1812:1812/udp -p 1813:1813/udp \
 -e RADIUS_SECRET="..." \
 -e CIBA_ISSUER="https://example.com" \
--e CIBA_AUTHN_ENDBPOINT="https://example.com/backchannel/authn" \
--e CIBA_TOKEN_ENDBPOINT="https://example.com/token" \
+-e CIBA_AUTHN_ENDPOINT="https://example.com/backchannel/authn" \
+-e CIBA_TOKEN_ENDPOINT="https://example.com/token" \
 -e CIBA_CLIENT_ID="..." \
 -e CIBA_CLIENT_SECRET="..." \
 okzk/oidc-radius
