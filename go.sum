@@ -1,7 +1,7 @@
 github.com/golang-jwt/jwt v3.2.2+incompatible h1:IfV12K8xAKAnZqdXVzCZ+TOjboZ2keLg81eXfW3O+oY=
 github.com/golang-jwt/jwt v3.2.2+incompatible/go.mod h1:8pz2t5EyA70fFQQSrl6XZXzqecmYZeUEB8OUGHkxJ+I=
-github.com/okzk/go-ciba v0.0.0-20210915055709-7f39f64630a5 h1:Srzjw+s5CgaYSzILHCAUVeiIKgtxP1HXJH3UgGwkBX0=
-github.com/okzk/go-ciba v0.0.0-20210915055709-7f39f64630a5/go.mod h1:SEAGlBB8zr5dfZtmO+EM5mhD9anAep48N4e6o0AHXtw=
+github.com/okzk/go-ciba v0.0.0-20220201080259-f732497357fd h1:PdWVLIDuE0UiyUGF3S/32T+Q1xOOFekr9Jgx/MPnVQs=
+github.com/okzk/go-ciba v0.0.0-20220201080259-f732497357fd/go.mod h1:SEAGlBB8zr5dfZtmO+EM5mhD9anAep48N4e6o0AHXtw=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/crypto v0.0.0-20200709230013-948cd5f35899/go.mod h1:LzIPMQfyMNhhGPhUkYOs5KpL4U8rLKemX1yGLhDgUto=
 golang.org/x/net v0.0.0-20190404232315-eb5bcb51f2a3/go.mod h1:t9HGtf8HONx5eT2rtn7q6eTqICYqUVnKs3thJo3Qplg=
